@@ -16,6 +16,8 @@ ELSE()
       set(CMAKE_PREFIX_PATH /opt/local ${CMAKE_PREFIX_PATH})
     endif()
 
+    set(CMAKE_INSTALL_PREFIX /opt)
+
     # Checking for dependencies
     find_package(CURL ${CURL_MIN_VERSION} REQUIRED)
 
@@ -24,13 +26,13 @@ ELSE()
       ${CURLCPP_SOURCE_DIR}/include)
 
     file(GLOB HEADER_LIST "${CMAKE_SOURCE_DIR}/include/*.h")
-    install (FILES ${HEADER_LIST} DESTINATION include)
+    install (FILES ${HEADER_LIST} DESTINATION include/curlcpp)
 
     # Set up source directories
     add_subdirectory(src)
 
     set(CURLCPP_LIB_LOCATION "$<TARGET_FILE:${curlcpp}>")
 
-    configure_file(CMake/curlcppConfig.cmake.in
-      ${CURLCPP_BINARY_DIR}/curlcppConfig.cmake @ONLY)
+    configure_file(CMake/libcurlcpp.pc.in
+      /opt/lib/pkgconfig/libcurlcpp.pc)
 ENDIF()
